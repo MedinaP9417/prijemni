@@ -87,10 +87,20 @@ export default {
       });
     },
   },
+    mounted() {
+    if (localStorage.getItem('allStudents')) {
+      try {
+        this.allStudents = JSON.parse(localStorage.getItem('allStudents'));
+      } catch(e) {
+        localStorage.removeItem('allStudents');
+      }
+    }
+  },
   methods: {
     onSubmit() {
       this.allStudents.push({ broj_indexa: this.broj_indexa, ime: this.ime, prezime: this.prezime, godina: this.godina, status_studenta: this.status_studenta,});
       this.clearForm();
+      this.saveAllStudents();
     },
     clearForm() {
       this.broj_indexa = "";
@@ -99,6 +109,10 @@ export default {
       this.godina = ""; 
       this.status_studenta = "";
     },
+        saveAllStudents() {
+      const parsed = JSON.stringify(this.allStudents);
+      localStorage.setItem('allStudents', parsed);
+    }
   },
 };
 </script>
